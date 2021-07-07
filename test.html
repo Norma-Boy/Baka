@@ -1,17 +1,307 @@
-<!DOCTYPE HTML>
-<html>
-    <head>
-        <meta charset="utf-8">
-        <link href="css/styles.css" rel="stylesheet" type="text/css">
-    </head>
-    <body>
-        <header>
-            <ul class="list">
-                <li><img src="logo.png"></li>
-                <li><input class="search" type="text" placeholder="Поиск..."></li>
-                <li><input id="Search" class="button" type="button" value="Найти"></li>
-                <li><input id="Login" class="button" type="button" value="Войти"></li>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="test.js"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js"
+        integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh"
+        crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js"
+        integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ"
+        crossorigin="anonymous"></script>
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+</head>
+
+<body>
+    <div class="header container justify-content-center">
+        <div class="void">
+
+        </div>
+
+        <div class="row">
+            <div class="sign col-4">
+                <div class="imglogo" style="padding-left: 30px;">
+                    <a href="index.html"><img src="images/logo.svg" alt=""></a>
+                </div>
+            </div>
+            <div class="search container-fluid col-4">
+                <div class="input-group mb-3">
+                    <input type="text" id="searchfilm"
+                        class="searchfocus form-control border-0 border-bottom border-dark rounded-0 shadow-none"
+                        placeholder="Поиск..." aria-label="Поиск..." aria-describedby="basic-addon2">
+                    <div class="input-group-append">
+                        <button class="btn searchbut" type="button" style="color: red;">
+                            Найти
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="container-fluid col-4" id="notLogged">
+                <button type="button" class="butt btn btn-danger" id="buttonLogin" data-toggle="modal"
+                    data-target="#exampleModalCenter">
+                    Войти
+                </button>
+
+                <div class="modal fade container-fluid" id="exampleModalCenter" tabindex="-1" role="dialog"
+                    aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                            <div class="modal-body">
+                                <h4 class="text-center">
+                                    Войти
+                                </h4>
+                                <div>
+                                    <form>
+                                        <div class="mb-3">
+                                            <label for="inputLogin" class="form-label">Логин</label>
+                                            <input type="text"
+                                                class="form-control border-0 border-bottom border-dark rounded-0"
+                                                id="inputLogin">
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="inputPass" class="form-label">Пароль</label>
+                                            <input type="password"
+                                                class="form-control border-0 border-bottom border-dark rounded-0"
+                                                id="inputPass">
+                                        </div>
+                                        <div class="mb-3 form-check">
+                                            <input type="checkbox" class="form-check-input" id="check">
+                                            <label class="form-check-label" for="check">Запомнить</label>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col text-center">
+                                                <button type="submit" class="buttnone btn btn-danger"
+                                                    onclick="login()">Войти</button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-2 container-fluid" id="onlyLogged">
+                <h5 class="text-end" id="helloWorld"></h5>
+            </div>
+            <div class="col-2 container-fluid" id="onlyLogged2">
+                <button type="button" class="btn searchbut exitbut" style="color: red;" id="buttonExit"
+                    onclick="exitLog()">
+                    Выйти
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <br>
+    <div class="container">
+        <div class="row">
+            <div class="col-sm text-end maintab">
+                <button class="btn rounded-0 shadow-none" type="button" id="movieButton" onclick="setMovie()">
+                    <h4>Фильмы</h4>
+                </button>
+            </div>
+            <div class="col-sm text-start maintab">
+                <button class="btn rounded-0 shadow-none" type="button" id="tvButton" onclick="setTv()">
+                    <h4>Телепередачи</h4>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="container" id="movie">
+        <div class="ultorow">
+            <h5>🔥 Новинки</h5>
+            <p></p>
+        </div>
+        <ul class="row">
+            <li class="block col-3" id="blc">
+                <div class="first_block">
+                    <div class="round blurblock" id="id1" onmouseenter="setFade(this)" onmouseleave="delFade(this)">
+                        <a href="" id="blurid1"><img src="images/a.png" alt=""></a>
+                        <p class="info_img" id="textid1">Комок шерсти</p>
+                    </div>
+                </div>
+                <p>Мульт в кино. Выпуск №103. Некогда грустить!</p>
+            </li>
+            <li class="block col-3">
+                <div class="first_block">
+                    <div class="round blurblock" id="id2" onmouseenter="setFade(this)" onmouseleave="delFade(this)">
+                        <a href="" id="blurid2"><img src="images/b.png" alt=""></a>
+                        <p class="info_img" id="textid2">Богатый сирота с деньгами в чёрном костюме, не осуждаю фетиши</p>
+                    </div>
+                </div>
+                <p>Новый Бэтмен</p>
+            </li>
+            <li class="block col-3">
+                <div class="first_block">
+                    <div class="round blurblock" id="id3" onmouseenter="setFade(this)" onmouseleave="delFade(this)">
+                        <a href="" id="blurid3"><img src="images/c.png" alt=""></a>
+                        <p class="info_img" id="textid3">Фильм повествует о череде событий, произошедших в Голливуде в
+                            1969 году,
+                            на закате его «золотого века».
+                            Известный актер Рик Далтон и его дублер Клифф Бут пытаются найти свое место в стремительно
+                            меняющемся мире киноиндустрии.</p>
+                    </div>
+                </div>
+                <p>Однажды... в Голливуде</p>
+            </li>
+            <li class="block col-3">
+                <div class="first_block">
+                    <div class="round blurblock" id="id4" onmouseenter="setFade(this)" onmouseleave="delFade(this)">
+                        <a href="" id="blurid4"><img src="images/d.png" alt=""></a>
+                        <p class="info_img" id="textid4">Хорошее семейное кино, одобряю к просмотру</p>
+                    </div>
+                </div>
+                <p>Стриптизёрши</p>
+            </li>
+        </ul>
+
+        <div class="ultorow">
+            <h5>Жанры</h5>
+            <p></p>
+        </div>
+
+        <ul class="row">
+            <li class="col-3">
+                <a href="" class="genre genre1">
+                    <p class="smile">😁</p>
+                    <p class="genretext">Комедии</p>
+                </a>
+            </li>
+            <li class="col-3">
+                <a href="" class="genre genre2">
+                    <p class="smile">😭</p>
+                    <p class="genretext">Драмы</p>
+                </a>
+            </li>
+            <li class="col-3">
+                <a href="" class="genre genre3">
+                    <p class="smile">👽</p>
+                    <p class="genretext">Фантастика</p>
+                </a>
+            </li>
+            <li class="col-3">
+                <a href="" class="genre genre4">
+                    <p class="smile">👻</p>
+                    <p class="genretext">Ужасы</p>
+                </a>
+            </li>
+        </ul>
+
+        <br><br>
+
+    </div>
+
+    <div class="container" id="tv">
+        <br>
+        <div class="tvscroll">
+            <ul class="row">
+                <li class="container-fluid tvblock">
+                    <div class="row">
+                        <div class="col-4 logo">
+                            <div class="imagelogo">
+                                <img src="images/1.png" alt="">
+                            </div>
+                        </div>
+                        <div class="col-8 progs">
+                            <h5 class="nameoftv">Первый канал</h5>
+                            <p class="nameofprog current">13:00 Новости с субтитрами</p>
+                            <p class="nameofprog">14:00 Давай поженимся</p>
+                            <p class="nameofprog">15:00 Другие новости</p>
+                        </div>
+                    </div>
+                </li>
+                <li class="tvvoid"></li>
+                <li class="container-fluid tvblock">
+                    <div class="row">
+                        <div class="col-4 logo">
+                            <div class="imagelogo">
+                                <img src="images/2x2.png" alt="">
+                            </div>
+                        </div>
+                        <div class="col-8 progs">
+                            <h5 class="nameoftv">2х2</h5>
+                            <p class="nameofprog current">13:00 МУЛЬТ ТВ. Сезон 4, 7 серия</p>
+                            <p class="nameofprog">14:00 ПОДОЗРИТЕЛЬНАЯ СОВА. Сезон 7, 7 серия</p>
+                            <p class="nameofprog">15:00 БУРДАШЕВ. Сезон 1, 20 серия</p>
+                        </div>
+                    </div>
+                </li>
+                <li class="tvvoid"></li>
+                <li class="container-fluid tvblock">
+                    <div class="row">
+                        <div class="col-4 logo">
+                            <div class="imagelogo">
+                                <img src="images/rbc.png" alt="">
+                            </div>
+                        </div>
+                        <div class="col-8 progs">
+                            <h5 class="nameoftv">РБК</h5>
+                            <p class="nameofprog current">13:00 ДЕНЬ. Горючая смесь: как бороться с суррогатом на АЗС
+                            </p>
+                            <p class="nameofprog">14:00 ДЕНЬ. Главные темы</p>
+                            <p class="nameofprog">15:00 Главные новости</p>
+                        </div>
+                    </div>
+                </li>
+                <li class="tvvoid"></li>
+                <li class="container-fluid tvblock">
+                    <div class="row">
+                        <div class="col-4 logo">
+                            <div class="imagelogo">
+                                <img src="images/amed.png" alt="">
+                            </div>
+                        </div>
+                        <div class="col-8 progs">
+                            <h5 class="nameoftv">AMEDIA PREMIUM</h5>
+                            <p class="nameofprog current">13:00 Клиент всегда мёртв</p>
+                            <p class="nameofprog">14:00 Голодные игры: Сойка-пересмешница. Часть I</p>
+                            <p class="nameofprog">15:00 Секс в большом городе</p>
+                        </div>
+                    </div>
+                </li>
+                <li class="tvvoid"></li>
             </ul>
-        </header>
-    </body>
+        </div>
+        <li class="tvvoid"></li>
+    </div>
+    </ul>
+    </div>
+
+    <footer>
+        <div class="foot container-fluid">
+            <div class="container">
+                <div class="row form_info">
+                    <div class="img_foot col-1">
+                        <a href=""><img class="foot_imgs" src="images/Vector (1).png" alt=""></a>
+                    </div>
+                    <div class="col-11">
+                        <p class="address">
+                            426057, Россия, Удмуртская Республика, г. Ижевск, ул. Карла Маркса, 246 (ДК «Металлург»)
+                        </p>
+                        <p class="phone">
+                            +7 (3412) 93-88-61, 43-29-29
+                        </p>
+                        <a class="link_ft" href="htc-cs.ru">
+                            <p class="link">
+                                htc-cs.ru
+                            </p>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+</body>
+
 </html>
