@@ -9,6 +9,7 @@ let movieButton = null;
 
 let inputLogin = null;
 let inputPass = null;
+let inputCheck = null;
 
 let enter = null;
 let exit = null;
@@ -20,6 +21,8 @@ let passReg = null;
 
 let inputSearch = null;
 
+let logged = null;
+let saved = null;
 
 function login() {
   localStorage.setItem("login", "admin");
@@ -33,24 +36,36 @@ function login() {
 
   loginReg = localStorage.getItem("login")
   passReg = localStorage.getItem("pass")
-  
+
 
   if (login == loginReg && pass == passReg) {
+    inputCheck = document.getElementById("check");
+    let Check = inputCheck.value;
+    if (Check){
+      localStorage.setItem("SavedLogin",login)
+      localStorage.setItem("SavedPass",pass)
+    }
     loginChange(loginReg);
   }
   else {
-    alert("You must register first*");
+    alert("Неверный логин или пароль");
   }
 }
-
+function SaveInput(){
+  saved = localStorage.getItem("SavedLogin");
+  if (saved !== null){
+    inputLogin = document.getElementById("inputLogin");
+    inputPass = document.getElementById("inputPass");
+    inputLogin.value = saved;
+    inputPass.value = localStorage.getItem("SavedPass");
+  }
+}
 function loginChange(userName) {
-  localStorage.setItem("islogged",userName)
   enter = document.getElementById("notLogged");
   exit = document.getElementById("onlyLogged");
   exitButton = document.getElementById("onlyLogged2");
-
-  hello = document.getElementById("helloWorld").textContent += (userName);
-
+  localStorage.setItem("islogged",userName)
+  hello = document.getElementById("helloWorld").textContent += userName;
   enter.style.display = "none";
   exit.style.display = "block";
   exitButton.style.display = "block";
@@ -61,12 +76,10 @@ function exitLog() {
   exit = document.getElementById("onlyLogged");
   exitButton = document.getElementById("onlyLogged2");
   localStorage.setItem("islogged",null)
-
   enter.style.display = "block";
   exit.style.display = "none";
   exitButton.style.display = "none";
 
-  localStorage.clear();
 }
 
 function changeButtonFocus(btn) {
@@ -158,8 +171,6 @@ function delFade(x) {
 function searchFilm(e) {
   let elems = document.getElementsByClassName("block");
   let news = document.getElementsByClassName("ultorow");
-  let genres = document.getElementsByClassName("genre");
-  let tabs = document.getElementsByClassName("maintab");
 
   let searching = e.target.value;
   var arr = [];
@@ -172,12 +183,7 @@ function searchFilm(e) {
     for (var i = 0; i < news.length; i++) {
       news[i].style.display = "none";
     }
-    for (var i = 0; i < genres.length; i++) {
-      genres[i].style.display = "none";
-    }
-    for (var i = 0; i < tabs.length; i++) {
-      tabs[i].style.display = "none";
-    }
+
 
     for (var i = 0; i < arr.length; i++) {
       if (!arr[i].textContent.toUpperCase().includes(searching.toUpperCase())) {
@@ -192,12 +198,6 @@ function searchFilm(e) {
     for (var i = 0; i < news.length; i++) {
       news[i].style.display = "block";
     }
-    for (var i = 0; i < genres.length; i++) {
-      genres[i].style.display = "block";
-    }
-    for (var i = 0; i < tabs.length; i++) {
-      tabs[i].style.display = "block";
-    }
 
     for (var i = 0; i < arr.length; i++) {
       elems[i].style.display = "block";
@@ -208,12 +208,12 @@ function searchFilm(e) {
 window.onload = function () {
   inputSearch = document.getElementById("searchfilm");
   inputSearch.addEventListener('input', searchFilm);
-
-  loginReg = localStorage.getItem("login");
-  loginPass = localStorage.getItem("pass");
-
-  logeed = localStorage.getItem("islogged");
-  if (logeed !== null) {
-    loginChange(logeed);
+  logged = localStorage.getItem("islogged");
+  saved = localStorage.getItem("SavedLogin");
+  if (saved !== null){
+    loginChange(saved);
+  }
+  else if (logged !== null) {
+    loginChange();
   }
 }
